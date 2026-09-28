@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block title %}Jewelry budget planner - PocketSmart AI{% endblock %}
+{% block content %}
+<div class="wrap">
+  <div class="page-head">
+    <h1>Jewelry budget planner</h1>
+    <p class="muted">Pick an occasion and style. Add an outfit photo to match colours.</p>
+  </div>
+  <form class="form-card" method="post" action="/generate-jewelry" enctype="multipart/form-data" data-loading>
+    {% if error %}<div class="alert" role="alert">{{ error }}</div>{% endif %}
+    {% if not gemini_ready %}<div class="notice">Gemini is not configured, so plans use built-in estimates and the outfit photo is ignored. Add your API key to the .env file to enable AI plans.</div>{% endif %}
+
+    <div class="row2">
+      <div class="field">
+        <label for="budget">Total budget (&#8377;)</label>
+        <input type="number" id="budget" name="budget" min="500" step="100" required placeholder="15000">
+      </div>
+      <div class="field">
+        <label for="occasion">Occasion</label>
+        <select id="occasion" name="occasion">
+          <option>Wedding</option><option>Party</option><option>Festival</option>
+          <option>Office</option><option>Casual</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="row2">
+      <div class="field">
+        <label for="style">Style</label>
+        <select id="style" name="style">
+          <option>Classic</option><option>Traditional</option><option>Modern</option>
+          <option>Minimal</option><option>Statement</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="metal">Metal</label>
+        <select id="metal" name="metal">
+          <option>Any</option><option>Gold</option><option>Silver</option>
+          <option>Rose gold</option><option>Oxidised</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="field">
+      <label for="outfit_image">Outfit photo (optional)</label>
+      <input type="file" id="outfit_image" name="outfit_image" accept="image/jpeg,image/png,image/webp">
+      <p class="hint">JPG, PNG or WebP, up to 5 MB.</p>
+      <img id="outfit_preview" class="preview" alt="Preview of your outfit photo">
+    </div>
+
+    <div class="field">
+      <label for="notes">Anything else? (optional)</label>
+      <textarea id="notes" name="notes" rows="3" maxlength="500" placeholder="Sensitive skin, prefer lightweight pieces"></textarea>
+    </div>
+
+    <button class="btn" type="submit" data-loading-text="Finding pieces...">Find jewelry</button>
+  </form>
+</div>
+{% endblock %}

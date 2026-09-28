@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}PocketSmart AI{% endblock %}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Public+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap">
+      <a class="brand" href="/">Pocket<span>Smart</span> AI</a>
+      <nav class="nav" aria-label="Main">
+        {% if user %}
+          <a href="/dashboard">Dashboard</a>
+          <a href="/home-planner">Home</a>
+          <a href="/party-planner">Party</a>
+          <a href="/jewelry-planner">Jewelry</a>
+          <a href="/history">History</a>
+          <a href="/logout">Log out</a>
+        {% else %}
+          <a href="/testimonials">Testimonials</a>
+          <a href="/login">Log in</a>
+          <a class="btn small" href="/register">Create account</a>
+        {% endif %}
+      </nav>
+    </div>
+  </header>
+
+  <main>{% block content %}{% endblock %}</main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <span>PocketSmart AI plans budgets for home, parties and jewelry.</span>
+      <span>Prices are estimates. Check the store before you buy.</span>
+    </div>
+  </footer>
+  <script src="/static/app.js"></script>
+</body>
+</html>

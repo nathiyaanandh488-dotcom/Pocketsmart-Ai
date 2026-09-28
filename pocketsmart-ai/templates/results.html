@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% from "_macros.html" import split_bar %}
+{% block title %}{{ meta.title }} - PocketSmart AI{% endblock %}
+{% block content %}
+<div class="wrap">
+  <div class="page-head">
+    <h1>{{ meta.title }}</h1>
+    {% if result.summary %}<p>{{ result.summary }}</p>{% endif %}
+  </div>
+
+  {% if result.fallback_used %}
+  <div class="notice">Gemini was not available for this plan, so these are built-in estimates. Check your API key and try again for AI-tailored picks.</div>
+  {% endif %}
+  {% if result.warning %}<div class="alert" role="alert">{{ result.warning }}</div>{% endif %}
+
+  <div class="stats">
+    <div class="stat"><span class="muted">Your budget</span><b>{{ budget|inr }}</b></div>
+    <div class="stat"><span class="muted">Planned spend</span><b>{{ result.total|inr }}</b></div>
+    <div class="stat"><span class="muted">{% if result.remaining >= 0 %}Left over{% else %}Over budget{% endif %}</span><b>{{ result.remaining|abs|inr }}</b></div>
+  </div>
+
+  <div class="panel">
+    <h2>How your budget is split</h2>
+    {{ split_bar(result.allocation) }}
+  </div>
+
+  <div class="panel">
+    <h2>Recommended items</h2>
+    {% for group in result.groups %}
+    <div class="group-head">
+      <h3>{{ group.category }}</h3>
+      <span class="muted">{{ group.subtotal|inr }}</span>
+    </div>
+    {% for item in group.items %}
+    <div class="item">
+      <div>
+        <strong>{{ item.name }}</strong><span class="badge">{{ item.platform }}</span>
+        {% if item.why %}<p class="muted">{{ item.why }}</p>{% endif %}
+        <p><a href="{{ item.url }}" target="_blank" rel="noopener noreferrer">Find on {{ item.platform }}</a></p>
+      </div>
+      <div class="price">
+        {{ item.line_total|inr }}
+        {% if item.quantity > 1 %}<br><span class="muted">{{ item.quantity }} x {{ item.estimated_price|inr }}</span>{% endif %}
+      </div>
+    </div>
+    {% endfor %}
+    {% endfor %}
+  </div>
+
+  {% if result.tips %}
+  <div class="panel">
+    <h2>Ways to save</h2>
+    <ul class="tips">{% for tip in result.tips %}<li>{{ tip }}</li>{% endfor %}</ul>
+  </div>
+  {% endif %}
+
+  <div class="actions">
+    <a class="btn" href="{{ meta.planner }}">Plan again</a>
+    <a class="btn ghost" href="/history">View history</a>
+  </div>
+</div>
+{% endblock %}

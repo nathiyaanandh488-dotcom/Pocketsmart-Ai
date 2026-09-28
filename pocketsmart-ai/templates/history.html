@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}History - PocketSmart AI{% endblock %}
+{% block content %}
+<div class="wrap">
+  <div class="page-head">
+    <h1>Your recommendation history</h1>
+    <p class="muted">Reopen any earlier plan.</p>
+  </div>
+
+  <nav class="tabs" aria-label="Filter by planner">
+    <a href="/history" {% if not active %}aria-current="page"{% endif %}>All</a>
+    {% for key, c in categories.items() %}
+    <a href="/history?category={{ key }}" {% if active == key %}aria-current="page"{% endif %}>{{ c.title }}</a>
+    {% endfor %}
+  </nav>
+
+  {% if items %}
+    {% for h in items %}
+    <div class="list-row">
+      <span class="badge">{{ categories[h.category].title }}</span>
+      <div>
+        <p><strong>{{ h.budget|inr }}</strong> budget, planned {{ h.result.total|inr }}</p>
+        <p class="muted">{{ h.result.summary }} ({{ h.created_at[:16] }} UTC)</p>
+      </div>
+      <a class="btn ghost small" href="/recommendation/{{ h.id }}">Open plan</a>
+    </div>
+    {% endfor %}
+  {% else %}
+    <p>No plans here yet. <a href="/dashboard">Go to the dashboard</a> to create one.</p>
+  {% endif %}
+</div>
+{% endblock %}

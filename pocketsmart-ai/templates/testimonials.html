@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}Testimonials - PocketSmart AI{% endblock %}
+{% block content %}
+<div class="wrap">
+  <div class="page-head">
+    <h1>What people say</h1>
+    <p class="muted">Placeholder feedback for this demo. Replace it with real reviews before you publish.</p>
+  </div>
+  {% for t in testimonials %}
+  <blockquote class="quote">
+    <p>{{ t.text }}</p>
+    <footer class="muted">{{ t.name }}, {{ t.role }}</footer>
+  </blockquote>
+  {% endfor %}
+</div>
+{% endblock %}

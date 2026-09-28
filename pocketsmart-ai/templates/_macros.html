@@ -1,0 +1,17 @@
+{% macro split_bar(allocation) %}
+<div class="split" role="img" aria-label="How the budget is split across categories">
+  {% for a in allocation %}
+  <span class="seg c{{ (loop.index0 % 6) + 1 }}" style="flex: {{ a.percent }} 1 0" title="{{ a.category }}"></span>
+  {% endfor %}
+</div>
+<ul class="split-legend">
+  {% for a in allocation %}
+  <li>
+    <i class="dot c{{ (loop.index0 % 6) + 1 }}"></i>
+    <span>{{ a.category }}</span>
+    <b>{{ a.amount|inr }}</b>
+    <em>{{ a.percent|round|int }}%</em>
+  </li>
+  {% endfor %}
+</ul>
+{% endmacro %}

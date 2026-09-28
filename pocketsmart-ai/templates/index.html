@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% from "_macros.html" import split_bar %}
+{% block content %}
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <h1>Know where every rupee goes before you shop.</h1>
+      <p>Enter a budget for your home, a party or a jewelry set. PocketSmart AI splits it sensibly and links you to matching products on Amazon, Flipkart, IKEA, Swiggy, Zomato and OYO.</p>
+      <div class="hero-actions">
+        {% if user %}
+          <a class="btn" href="/dashboard">Open your dashboard</a>
+        {% else %}
+          <a class="btn" href="/register">Start planning</a>
+          <a class="btn ghost" href="/login">Log in</a>
+        {% endif %}
+      </div>
+    </div>
+    <div class="sample">
+      <h3>Birthday party for 40 guests</h3>
+      <p class="muted">Sample split of a {{ 50000|inr }} budget</p>
+      {{ split_bar(sample_split) }}
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <h2>Pick a planner</h2>
+    <div class="planner-list">
+      <div class="planner-row">
+        <h3>Home interior planner</h3>
+        <p>Choose your rooms and how many lights, fans, tables or sofas you need. Get options from IKEA, Amazon and Flipkart that balance style and price.</p>
+        <a class="btn small" href="/home-planner">Plan a home</a>
+      </div>
+      <div class="planner-row">
+        <h3>Party budget planner</h3>
+        <p>Give your guest count and event type. The budget is divided across catering, decoration, entertainment and, if needed, a stay on OYO.</p>
+        <a class="btn small" href="/party-planner">Plan a party</a>
+      </div>
+      <div class="planner-row">
+        <h3>Jewelry budget planner</h3>
+        <p>Set an occasion and style, and upload a photo of your outfit if you like. Gemini matches colours and suggests pieces within your budget.</p>
+        <a class="btn small" href="/jewelry-planner">Find jewelry</a>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

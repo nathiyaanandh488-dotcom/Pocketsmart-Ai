@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block title %}Party budget planner - PocketSmart AI{% endblock %}
+{% block content %}
+<div class="wrap">
+  <div class="page-head">
+    <h1>Party budget planner</h1>
+    <p class="muted">We split your budget across catering, decoration and entertainment.</p>
+  </div>
+  <form class="form-card" method="post" action="/generate-party" data-loading>
+    {% if error %}<div class="alert" role="alert">{{ error }}</div>{% endif %}
+    {% if not gemini_ready %}<div class="notice">Gemini is not configured, so plans use built-in estimates. Add your API key to the .env file to enable AI plans.</div>{% endif %}
+
+    <div class="row2">
+      <div class="field">
+        <label for="budget">Total budget (&#8377;)</label>
+        <input type="number" id="budget" name="budget" min="500" step="100" required placeholder="50000">
+      </div>
+      <div class="field">
+        <label for="guests">Number of guests</label>
+        <input type="number" id="guests" name="guests" min="1" max="5000" required placeholder="40">
+      </div>
+    </div>
+
+    <div class="row2">
+      <div class="field">
+        <label for="event_type">Event type</label>
+        <select id="event_type" name="event_type">
+          <option>Birthday</option><option>Corporate</option><option>Wedding</option>
+          <option>Anniversary</option><option>Housewarming</option><option>Baby shower</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="venue">Venue or city</label>
+        <input type="text" id="venue" name="venue" maxlength="200" placeholder="Community hall, Madurai">
+      </div>
+    </div>
+
+    <div class="field">
+      <div class="checks"><label><input type="checkbox" name="needs_stay" value="true"> Some guests need a place to stay</label></div>
+      <p class="hint">We will set aside part of the budget for OYO rooms.</p>
+    </div>
+
+    <div class="field">
+      <label for="notes">Anything else? (optional)</label>
+      <textarea id="notes" name="notes" rows="3" maxlength="500" placeholder="Vegetarian menu, outdoor evening event"></textarea>
+    </div>
+
+    <button class="btn" type="submit" data-loading-text="Building your plan...">Build my plan</button>
+  </form>
+</div>
+{% endblock %}
